@@ -56,7 +56,7 @@ android {
             aaptOptions.cruncherEnabled = false
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = releaseSigningConfig
+            signingConfig = signingConfigs.getByName("debug") // Use debug signing for personal builds
         }
         getByName("debug") {
             applicationIdSuffix = ".debug"

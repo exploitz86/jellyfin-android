@@ -10,7 +10,7 @@ import org.gradle.api.Project
  * v2.0.0 -> 2.0.0
  * null -> 0.0.0-dev.1 (unless different fallback set)
  */
-fun Project.getVersionName(fallback: String = "0.0.0-dev.1"): String {
+fun Project.getVersionName(fallback: String = "1.0.0-eXploitz"): String {
     val configuredVersion = System.getenv("JELLYFIN_VERSION")
         ?: findProperty("jellyfin.version")?.toString()
 

@@ -241,10 +241,17 @@ class RemotePlayerService : Service(), CoroutineScope {
 
             setPlaybackState(!isPaused, position, canSeek)
 
+            // ✅ VOLUME CONTROL FIX: Always use local audio attributes
+            // This prevents the app from hijacking hardware volume buttons
             if (isLocalPlayer) {
                 mediaSession.applyDefaultLocalAudioAttributes(AudioAttributes.CONTENT_TYPE_MUSIC)
             } else {
-                mediaSession.setPlaybackToRemote(remoteVolumeProvider)
+                // FIXED: Instead of setPlaybackToRemote which hijacks volume buttons,
+                // we use local audio attributes to let system handle volume control
+                mediaSession.applyDefaultLocalAudioAttributes(AudioAttributes.CONTENT_TYPE_MUSIC)
+                
+                // Original problematic code that hijacked volume buttons:
+                // mediaSession.setPlaybackToRemote(remoteVolumeProvider)
             }
 
             val supportsNativeSeek = AndroidVersion.isAtLeastQ

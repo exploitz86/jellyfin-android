@@ -10,20 +10,28 @@ class RemoteVolumeProvider(
     private val webappFunctionChannel: WebappFunctionChannel,
 ) : VolumeProvider(VOLUME_CONTROL_ABSOLUTE, Constants.PERCENT_MAX, 0) {
     override fun onAdjustVolume(direction: Int) {
-        when (direction) {
-            AudioManager.ADJUST_RAISE -> {
-                webappFunctionChannel.callPlaybackManagerAction(PLAYBACK_MANAGER_COMMAND_VOL_UP)
-                currentVolume += 2 // TODO: have web notify app with new volume instead
-            }
-            AudioManager.ADJUST_LOWER -> {
-                webappFunctionChannel.callPlaybackManagerAction(PLAYBACK_MANAGER_COMMAND_VOL_DOWN)
-                currentVolume -= 2 // TODO: have web notify app with new volume instead
-            }
-        }
+        // ✅ VOLUME CONTROL FIX: Disabled to prevent hijacking hardware volume buttons
+        // This allows the system to handle volume button presses normally
+        // 
+        // Original code that caused the volume control issue:
+        // when (direction) {
+        //     AudioManager.ADJUST_RAISE -> {
+        //         webappFunctionChannel.callPlaybackManagerAction(PLAYBACK_MANAGER_COMMAND_VOL_UP)
+        //         currentVolume += 2
+        //     }
+        //     AudioManager.ADJUST_LOWER -> {
+        //         webappFunctionChannel.callPlaybackManagerAction(PLAYBACK_MANAGER_COMMAND_VOL_DOWN)
+        //         currentVolume -= 2
+        //     }
+        // }
     }
 
     override fun onSetVolumeTo(volume: Int) {
-        webappFunctionChannel.setVolume(volume)
-        currentVolume = volume // TODO: have web notify app with new volume instead
+        // ✅ VOLUME CONTROL FIX: Disabled to prevent programmatic volume control
+        // This allows the system to handle volume changes normally
+        //
+        // Original code:
+        // webappFunctionChannel.setVolume(volume)
+        // currentVolume = volume
     }
 }
